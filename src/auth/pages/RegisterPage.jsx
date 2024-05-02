@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { Button, Grid, Typography, TextField, Link } from "@mui/material";
 import { AuthLayout } from "../layout";
 import { useForm } from "../../hooks";
+import { startCreatingUserWithEmailPassword } from "../../store/auth/thunk";
 
 const formInitialState = {
     displayName: "",
@@ -11,7 +13,7 @@ const formInitialState = {
 };
 
 const formValidations = {
-    email: [(value) => value.includes("@"), "Debe ser un correo válido"],
+    email: [(value) => value.includes("@") && value.includes(".com"), "Debe ser un correo válido"],
     password: [
         (value) => value.length >= 6,
         "La contraseña debe tener al menos 6 caracteres",
@@ -20,13 +22,17 @@ const formValidations = {
 };
 
 export const RegisterPage = () => {
+
+    const dispatch = useDispatch();
     const [formSubmitted, setFormSubmitted] = useState(false)
 
     const {
+        formState,
         displayName,
         email,
         password,
         onInputChange,
+        formInvalidMsg,
         displayNameInvalidMessage,
         emailInvalidMessage,
         passwordInvalidMessage,
@@ -36,6 +42,9 @@ export const RegisterPage = () => {
         e.preventDefault();
         setFormSubmitted(true);
 
+        if(!formInvalidMsg) return;
+        
+        dispatch(startCreatingUserWithEmailPassword(formState));
     };
 
     return (

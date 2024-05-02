@@ -42,6 +42,7 @@ export const useForm = (initialForm = {}, formValidations = {}) => {
         onInputChange,
         onResetForm,
 
-        ...formInvalidMsg
+        ...formInvalidMsg,
+        formInvalidMsg
     };
 };
