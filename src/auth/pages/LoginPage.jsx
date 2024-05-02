@@ -1,4 +1,5 @@
-import { useDispatch } from "react-redux";
+import { useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 import { Button, Grid, Typography, TextField, Link } from "@mui/material";
 import { Google } from "@mui/icons-material";
@@ -8,24 +9,27 @@ import { useForm } from "../../hooks";
 import { checkingAuth, startGoogleLogin } from "../../store/auth";
 
 export const LoginPage = () => {
+    const { status } = useSelector((state) => state.auth);
 
     const dispatch = useDispatch();
 
-    const {email,password, onInputChange} = useForm({
+    const { email, password, onInputChange } = useForm({
         email: "",
         password: "",
-    })
+    });
+
+    const isAuthenticating = useMemo(() => status === "checking", [status]);
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log({email, password})
+        console.log({ email, password });
         dispatch(checkingAuth(email, password));
-    }
+    };
 
     const onGoogleLogin = () => {
-        console.log('google login')
+        console.log("google login");
         dispatch(startGoogleLogin());
-    }
+    };
 
     return (
         <AuthLayout title="Login">
@@ -56,12 +60,22 @@ export const LoginPage = () => {
 
                     <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
                         <Grid item xs={12} sm={6}>
-                            <Button variant="contained" fullWidth type="submit">
+                            <Button
+                                variant="contained"
+                                fullWidth
+                                type="submit"
+                                disabled={isAuthenticating}
+                            >
                                 Login
                             </Button>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <Button variant="contained" fullWidth onClick={onGoogleLogin}>
+                            <Button
+                                variant="contained"
+                                fullWidth
+                                onClick={onGoogleLogin}
+                                disabled={isAuthenticating}
+                            >
                                 <Google />
                                 <Typography sx={{ ml: 1 }}>Google</Typography>
                             </Button>
