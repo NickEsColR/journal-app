@@ -5,7 +5,7 @@ import { TurnedInNot } from "@mui/icons-material";
 
 import { setActiveNote } from "../../store/journal/JournalSlice";
 
-export const SideBarItem = ({title, body, id}) => {
+export const SideBarItem = ({title, body, id, date, imageUrls = []}) => {
 
     const dispatch = useDispatch();
 
@@ -14,7 +14,7 @@ export const SideBarItem = ({title, body, id}) => {
     }, [title])
 
     const onClickItem = () => {
-        dispatch(setActiveNote({id, title, body}));
+        dispatch(setActiveNote({id, title, body, date, imageUrls}));
     }
     return (
         <ListItem disablePadding>

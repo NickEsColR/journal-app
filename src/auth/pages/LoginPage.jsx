@@ -56,7 +56,7 @@ export const LoginPage = () => {
     const onGoogleLogin = () => {
         dispatch(startGoogleLogin());
     };
-
+    
     return (
         <AuthLayout title="Login">
             <form
