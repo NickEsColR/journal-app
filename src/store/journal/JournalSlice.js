@@ -12,7 +12,7 @@ const initialState = {
 //     title: "Hello World",
 //     body: "This is the body",
 //     date: 1633142400000,
-//     imageUls: []
+//     imageUrls: []
 // }
 
 export const JournalSlice = createSlice({
@@ -48,6 +48,10 @@ export const JournalSlice = createSlice({
 
             state.messageSaved = `${action.payload.title}, guardado con éxito`
         },
+        setPhotosToActiveNote: (state, action) => {
+            state.activeNote.imageUrls = [...state.activeNote.imageUrls,...action.payload]
+            state.isSaving = false
+        },
         deleteNoteById: (state, action) => {},
     },
 });
@@ -60,4 +64,5 @@ export const {
     setSaving,
     updateNote,
     deleteNoteById,
+    setPhotosToActiveNote,
 } = JournalSlice.actions;
