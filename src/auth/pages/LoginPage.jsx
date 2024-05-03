@@ -1,7 +1,14 @@
 import { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
-import { Button, Grid, Typography, TextField, Link, Alert } from "@mui/material";
+import {
+    Button,
+    Grid,
+    Typography,
+    TextField,
+    Link,
+    Alert,
+} from "@mui/material";
 import { Google } from "@mui/icons-material";
 
 import { AuthLayout } from "../layout";
@@ -29,14 +36,20 @@ export const LoginPage = () => {
     const dispatch = useDispatch();
     const [formSubmitted, setFormSubmitted] = useState(false);
 
-    const { email, password, onInputChange, emailInvalidMessage, formInvalidMsg} = useForm(formInitialState, formValidations);
+    const {
+        email,
+        password,
+        onInputChange,
+        emailInvalidMessage,
+        formInvalidMsg,
+    } = useForm(formInitialState, formValidations);
 
     const isAuthenticating = useMemo(() => status === "checking", [status]);
 
     const onSubmit = (e) => {
         e.preventDefault();
         setFormSubmitted(true);
-        if (!!formInvalidMsg) return
+        if (!!formInvalidMsg) return;
         dispatch(startLoginWithEmailPassword({ email, password }));
     };
 
@@ -47,7 +60,10 @@ export const LoginPage = () => {
 
     return (
         <AuthLayout title="Login">
-            <form onSubmit={onSubmit}>
+            <form
+                onSubmit={onSubmit}
+                className="animate__animated animate__fadeIn animate__faster"
+            >
                 <Grid container>
                     <Grid item xs={12} sx={{ mt: 2 }}>
                         <TextField
