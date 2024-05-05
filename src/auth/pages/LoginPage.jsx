@@ -1,15 +1,14 @@
 import { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
-import {
-    Button,
-    Grid,
-    Typography,
-    TextField,
-    Link,
-    Alert,
-} from "@mui/material";
-import { Google } from "@mui/icons-material";
+
+import  Button  from "@mui/material/Button";
+import  Grid from "@mui/material/Grid";
+import  Typography from "@mui/material/Typography";
+import  TextField from "@mui/material/TextField";
+import  Link from "@mui/material/Link";
+import  Alert from "@mui/material/Alert";
+import  Google from "@mui/icons-material/Google";
 
 import { AuthLayout } from "../layout";
 import { useForm } from "../../hooks";
@@ -41,7 +40,6 @@ export const LoginPage = () => {
         password,
         onInputChange,
         emailInvalidMessage,
-        formInvalidMsg,
     } = useForm(formInitialState, formValidations);
 
     const isAuthenticating = useMemo(() => status === "checking", [status]);
@@ -49,17 +47,18 @@ export const LoginPage = () => {
     const onSubmit = (e) => {
         e.preventDefault();
         setFormSubmitted(true);
-        if (!!formInvalidMsg) return;
+        if (!!emailInvalidMessage) return;
         dispatch(startLoginWithEmailPassword({ email, password }));
     };
 
     const onGoogleLogin = () => {
         dispatch(startGoogleLogin());
     };
-    
+
     return (
         <AuthLayout title="Login">
             <form
+                aria-label="login-form"
                 onSubmit={onSubmit}
                 className="animate__animated animate__fadeIn animate__faster"
             >
@@ -83,6 +82,9 @@ export const LoginPage = () => {
                             type="password"
                             placeholder="contraseña"
                             fullWidth
+                            inputProps={{
+                                "data-testid": "password",
+                            }}
                             name="password"
                             value={password}
                             onChange={onInputChange}
@@ -113,6 +115,7 @@ export const LoginPage = () => {
                                 fullWidth
                                 onClick={onGoogleLogin}
                                 disabled={isAuthenticating}
+                                aria-label="google-login"
                             >
                                 <Google />
                                 <Typography sx={{ ml: 1 }}>Google</Typography>
